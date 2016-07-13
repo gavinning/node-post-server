@@ -1,4 +1,3 @@
-var post = {};
 var fs = require('fs');
 var path = require('path');
 var lab = require('linco.lab');
@@ -35,16 +34,22 @@ class Poster {
     dest(source, target, fn) {
         if(this.safePath(target)){
             lab.mkdir(path.dirname(target));
+            try{
+                fs.unlinkSync(target)
+            }
+            catch(e){
+                console.log(e.message, 'node-post-server|poster.js|41')
+            }
             lab.isFunction(fn) ?
                 fs.link(source, target, fn):
                 fs.linkSync(source, target);
         }
         else{
             if(fn){
-                fn(new Error('请检查安全路径'))
+                fn(new Error('Must be use workplace'))
             }
             else{
-                throw new Error('请检查安全路径')
+                throw new Error('Must be use workplace')
             }
         }
     }

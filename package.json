@@ -1,6 +1,6 @@
 {
   "name": "node-post-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "支持服务端部署",
   "main": "poster.js",
   "scripts": {
