@@ -43,8 +43,3 @@ router.post('/upload', multipartMiddleware, (req, res) => {
 })
 
 ```
-
-### Other
-```js
-
-```
