@@ -1,5 +1,5 @@
 {
-  "name": "post-server",
+  "name": "node-post-server",
   "version": "0.1.0",
   "description": "支持服务端部署",
   "main": "poster.js",
