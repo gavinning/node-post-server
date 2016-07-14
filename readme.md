@@ -7,8 +7,6 @@ npm i node-post-server --save
 
 ### Exporess router
 ```js
-
-
 var path = require('path');
 var express = require('express');
 var router = express.Router();
@@ -47,7 +45,6 @@ router.post('/upload', multipartMiddleware, (req, res) => {
             res.status(200).send(target)
     })
 })
-
 ```
 
 req.files

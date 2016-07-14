@@ -40,9 +40,24 @@ class Poster {
             catch(e){
                 console.log(e.message, 'node-post-server|poster.js|41')
             }
-            lab.isFunction(fn) ?
-                fs.link(source, target, fn):
+            // 同步 Or 异步
+            if(!lab.isFunction(fn)){
+                // 复制文件到目的地
                 fs.linkSync(source, target);
+                // 删除原有链接
+                fs.unlinkSync(source);
+            }
+            else{
+                fs.link(source, target, function(err){
+                    if(err){
+                        fn(err)
+                    }
+                    else{
+                        fn(null);
+                        fs.unlinkSync(source);
+                    }
+                })
+            }
         }
         else{
             if(fn){
