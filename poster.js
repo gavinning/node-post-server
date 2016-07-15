@@ -25,13 +25,13 @@ class Poster {
     }
 
     /**
-     * Link souce to target
+     * Link source to target
      * @param   {String}   source 源地址
      * @param   {String}   target 目标地址
      * @param   {Function} fn     回调函数，可选
-     * @example this.dest('a', 'b')
+     * @example this.link('a', 'b')
      */
-    dest(source, target, fn) {
+    link(source, target, fn) {
         if(this.safePath(target)){
             lab.mkdir(path.dirname(target));
             try{
@@ -48,12 +48,14 @@ class Poster {
                 fs.unlinkSync(source);
             }
             else{
+                // 复制文件到目的地
                 fs.link(source, target, function(err){
                     if(err){
                         fn(err)
                     }
                     else{
                         fn(null);
+                        // 删除原有链接
                         fs.unlinkSync(source);
                     }
                 })
@@ -67,6 +69,62 @@ class Poster {
                 throw new Error('Must be use workplace')
             }
         }
+    }
+
+    /**
+     * Copy source to target
+     * @param   {String}   source 源地址
+     * @param   {String}   target 目标地址
+     * @param   {Function} fn     回调函数，可选
+     * @example this.copy('a', 'b')
+     */
+    copy(source, target, fn) {
+        var output;
+        var deleteTmp = this.config.get('deleteTmp');
+
+        if(this.safePath(target)){
+            lab.mkdir(path.dirname(target));
+            try{
+                fs.unlinkSync(target)
+            }
+            catch(e){}
+            // 同步 Or 异步
+            if(!lab.isFunction(fn)){
+                // 复制文件到目的地
+                fs.writeFileSync(target, fs.readFileSync(source));
+                // 删除原有链接
+                !deleteTmp || fs.unlinkSync(source);
+            }
+            else{
+                // 复制文件到目的地
+                output = fs.createWriteStream(target);
+                fs.createReadStream(source).pipe(output);
+
+                output.on('close', (err) => {
+                    if(err){
+                        fn(err)
+                    }
+                    else{
+                        fn(null);
+                        // 删除原有链接
+                        !deleteTmp || fs.unlinkSync(source);
+                    }
+                })
+            }
+        }
+        else{
+            if(fn){
+                fn(new Error('Must be use workplace'))
+            }
+            else{
+                throw new Error('Must be use workplace')
+            }
+        }
+    }
+
+    // 默认为Copy
+    dest() {
+        return this.copy.apply(this, arguments)
     }
 }
 

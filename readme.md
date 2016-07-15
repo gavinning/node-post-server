@@ -62,3 +62,19 @@ req.files = {
     }
 }
 ```
+
+### API
+``post.safePath(src)``  
+``@des`` 判断目标是否为安全路径
+``@param`` ``type: String`` ``src`` 文件URL  
+``@return`` ``type: Boolean`` 是否为安全路径
+
+``post.link(source, target, fn)``  
+``@des`` 建立硬链接，建立成功后根据post.config.get('deleteTmp')判断是否删除source  
+``@param`` ``type: String`` ``source`` 源地址  
+``@param`` ``type: String`` ``target`` 目标地址  
+``@param`` ``type: Function`` ``fn`` 成功后回调，可选，有此参数为异步操作，无此参数为同步操作，推荐异步  
+
+``post.copy`` 复制，其他同上
+
+``post.dest`` post输出文件的方法，默认为复制操作，其他同上
