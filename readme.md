@@ -16,7 +16,7 @@ var Poster = require('node-post-server');
 var poster = new Poster;
 
 // 允许写入的路径
-poster.config.init({
+poster.config.merge({
     safePaths: [
         '/Users/gavinning/Desktop/test',
         '/Users/gavinning/Desktop/test1'
@@ -78,3 +78,12 @@ req.files = {
 ``post.copy`` 复制，其他同上
 
 ``post.dest`` post输出文件的方法，默认为复制操作，其他同上
+
+### Options
+配置项依赖 [vpm-config](https://www.npmjs.com/package/vpm-config) 进行管理，点击了解api详情
+```js
+post.config.init(options)
+```
+
+``safePaths`` ``Array`` 配置安全路径  
+``deleteTmp`` ``Boolean`` 是否删除临时文件，默认为 ``true``

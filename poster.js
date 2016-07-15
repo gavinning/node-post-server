@@ -8,6 +8,9 @@ class Poster {
     constructor() {
         this.extend = extend;
         this.config = new Config;
+        this.config.init({
+            deleteTmp: true
+        })
     }
 
     /**

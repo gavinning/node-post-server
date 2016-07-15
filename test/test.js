@@ -1,7 +1,7 @@
 var Poster = require('../poster');
 var poster = new Poster;
 
-poster.config.init({
+poster.config.merge({
     safePaths: [
         '/Users/gavinning/Desktop/test',
         '/Users/gavinning/Desktop/test1'
